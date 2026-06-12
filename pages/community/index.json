@@ -1,0 +1,6 @@
+{
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "model-card": "/components/model-card/index"
+  }
+}

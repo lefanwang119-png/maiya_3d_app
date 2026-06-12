@@ -1,0 +1,201 @@
+page {
+  background: #fff;
+}
+
+.orders-page {
+  min-height: 100vh;
+  color: #111;
+  background: #fff;
+}
+
+.orders-top {
+  display: flex;
+  min-height: 164rpx;
+  align-items: center;
+  gap: 22rpx;
+  padding: 76rpx 40rpx 22rpx;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(24rpx);
+  animation: pageIn 360ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.back-btn {
+  display: flex;
+  width: 62rpx;
+  height: 62rpx;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f5f5f5;
+  font-size: 54rpx;
+  line-height: 54rpx;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1), background 180ms ease;
+}
+
+.back-btn:active {
+  transform: scale(0.92);
+  background: #ececec;
+}
+
+.page-title {
+  font-size: 32rpx;
+  font-weight: 900;
+}
+
+.page-sub {
+  margin-top: 6rpx;
+  color: #999;
+  font-size: 21rpx;
+}
+
+.orders-scroll {
+  height: calc(100vh - 164rpx);
+  box-sizing: border-box;
+  padding: 22rpx 40rpx calc(88rpx + env(safe-area-inset-bottom));
+}
+
+.empty-state {
+  margin-top: 160rpx;
+  text-align: center;
+  animation: pageIn 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.empty-title {
+  font-size: 30rpx;
+  font-weight: 900;
+}
+
+.empty-sub {
+  margin-top: 12rpx;
+  color: #999;
+  font-size: 22rpx;
+}
+
+.order-card {
+  margin-bottom: 22rpx;
+  padding: 26rpx;
+  border: 1rpx solid #eee;
+  border-radius: 16rpx;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 16rpx 40rpx rgba(0, 0, 0, 0.06);
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 220ms ease;
+  animation: cardIn 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.order-card:active {
+  transform: translateY(6rpx) scale(0.975);
+  box-shadow: 0 8rpx 20rpx rgba(0, 0, 0, 0.06);
+}
+
+.order-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20rpx;
+}
+
+.order-title {
+  font-size: 27rpx;
+  font-weight: 900;
+}
+
+.order-time {
+  margin-top: 8rpx;
+  color: #999;
+  font-size: 20rpx;
+}
+
+.order-status {
+  padding: 8rpx 14rpx;
+  border-radius: 999rpx;
+  color: #2f22ff;
+  background: #f1efff;
+  font-size: 19rpx;
+  font-weight: 900;
+  white-space: nowrap;
+  animation: statusPop 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.order-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12rpx;
+  margin-top: 24rpx;
+}
+
+.order-meta text {
+  color: #999;
+  font-size: 18rpx;
+}
+
+.order-meta view view {
+  margin-top: 8rpx;
+  font-size: 22rpx;
+  font-weight: 900;
+}
+
+.plus {
+  color: #12a150;
+}
+
+.minus {
+  color: #ff3a2f;
+}
+
+.order-balance {
+  margin-top: 22rpx;
+  padding-top: 18rpx;
+  border-top: 1rpx solid #f1f1f1;
+  color: #777;
+  font-size: 21rpx;
+}
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(18rpx) scale(0.992); filter: blur(6rpx); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(32rpx) scale(0.972); filter: blur(8rpx); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes statusPop {
+  from { opacity: 0; transform: scale(0.82); }
+  70% { opacity: 1; transform: scale(1.06); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* MAIYA brand theme */
+page,
+.orders-page {
+  color: #151b1d;
+  background:
+    radial-gradient(circle at 82% 6%, rgba(22, 213, 200, 0.12), transparent 30%),
+    linear-gradient(180deg, #f7f6f2 0%, #efefeb 100%);
+}
+
+.order-card,
+.order-tabs,
+.orders-nav {
+  border-color: rgba(21, 27, 29, 0.1);
+  background: #ffffff;
+  box-shadow: 0 14rpx 30rpx rgba(21, 27, 29, 0.08);
+}
+
+.order-title,
+.orders-title {
+  color: #151b1d;
+}
+
+.order-sub,
+.order-meta {
+  color: #687174;
+}
+
+.order-action,
+.tab--active {
+  color: #151b1d;
+  background: linear-gradient(135deg, #22e4d6, #16d5c8);
+}

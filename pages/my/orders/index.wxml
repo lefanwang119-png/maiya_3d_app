@@ -1,0 +1,41 @@
+﻿<view class="orders-page">
+  <view class="orders-top">
+    <view class="back-btn" bindtap="handleBack">‹</view>
+    <view>
+      <view class="page-title">历史订单</view>
+      <view class="page-sub">所有积分充值与生成交易记录</view>
+    </view>
+  </view>
+
+  <scroll-view class="orders-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view wx:if="{{!orders.length}}" class="empty-state">
+      <view class="empty-title">暂无交易记录</view>
+      <view class="empty-sub">充值或生成模型后会显示在这里</view>
+    </view>
+
+    <view wx:for="{{orders}}" wx:key="id" class="order-card">
+      <view class="order-head">
+        <view>
+          <view class="order-title">{{item.title || item.typeText}}</view>
+          <view class="order-time">{{item.timeText}}</view>
+        </view>
+        <view class="order-status">{{item.statusText}}</view>
+      </view>
+      <view class="order-meta">
+        <view>
+          <text>交易类型</text>
+          <view>{{item.typeText}}</view>
+        </view>
+        <view>
+          <text>金额/消耗</text>
+          <view>{{item.amountText}}</view>
+        </view>
+        <view>
+          <text>积分变化</text>
+          <view class="{{item.pointClass}}">{{item.pointText}}</view>
+        </view>
+      </view>
+      <view class="order-balance">交易后余额 {{item.balance}} 积分</view>
+    </view>
+  </scroll-view>
+</view>

@@ -1,0 +1,116 @@
+﻿<view class="mai-home">
+  <view class="status-bar"></view>
+
+  <view class="home-nav">
+    <view class="brand-lockup">
+      <view class="brand-mark">M</view>
+      <view class="brand-copy">
+        <view class="brand-name">首页</view>
+        <view class="brand-slogan">MAIYA 3D 工作室</view>
+      </view>
+    </view>
+  </view>
+
+  <scroll-view class="home-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="community-strip" bindtap="openCommunity">
+      <view class="community-strip__left">
+        <view class="community-strip__dot"></view>
+        <text class="community-strip__title">社区动态</text>
+      </view>
+      <text class="community-strip__action">进入</text>
+    </view>
+
+    <view class="hero-board">
+      <view class="hero-board__item">
+        <view class="hero-board__label">社区热度</view>
+        <view class="hero-board__value">TOP3 实时榜</view>
+      </view>
+      <view class="hero-board__item">
+        <view class="hero-board__label">模型创作</view>
+        <view class="hero-board__value">图生3D / 文生3D</view>
+      </view>
+    </view>
+
+    <view class="section-title">分类探索</view>
+    <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="category-scroll">
+      <view class="category-row">
+        <view wx:for="{{categories}}" wx:key="index" class="category-card" data-type="{{item.type}}" bindtap="openCategory">
+          <view class="category-card__icon-wrap">
+            <image class="category-image" src="{{item.image}}" mode="aspectFit" />
+          </view>
+          <view class="category-card__title">{{item.title}}</view>
+          <view class="category-card__sub">{{item.subTitle}}</view>
+        </view>
+      </view>
+    </scroll-view>
+
+    <view class="section-title">精选模型</view>
+    <view class="work-grid">
+      <view wx:for="{{visibleWorks}}" wx:key="index" class="work-card">
+        <model-card model="{{item}}" large="{{true}}" showAuthor="{{true}}" bindtapcard="openWork" />
+      </view>
+    </view>
+
+    <view class="follow-block">
+      <view class="follow-head">
+        <view class="follow-title">我的关注</view>
+        <view class="follow-head__right">
+          <view class="follow-count">{{followedAuthors.length}} 位作者</view>
+          <view class="follow-link" bindtap="openCommunity">去社区</view>
+        </view>
+      </view>
+      <view wx:if="{{followedAuthors.length}}" class="follow-list">
+        <view wx:for="{{followedAuthors}}" wx:key="*this" class="follow-chip" data-author="{{item}}" bindtap="openFollowedAuthor">
+          @{{item}}
+        </view>
+      </view>
+      <view wx:else class="follow-empty" bindtap="openCommunity">还没有关注作者，去社区逛逛</view>
+    </view>
+
+    <view wx:if="{{searchText && !visibleWorks.length}}" class="empty-search">
+      <view>没有找到相关模型</view>
+      <text>换个关键词试试</text>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{showDetail}}" class="home-detail">
+    <view class="home-detail__nav">
+      <view class="home-detail__back" bindtap="closeDetail">‹ 返回</view>
+      <view class="home-detail__owner">{{selectedWork.author}}</view>
+      <view class="home-detail__follow {{selectedFollowed ? 'home-detail__follow--active' : ''}}" bindtap="toggleSelectedFollow">{{selectedFollowed ? '已关注' : '关注作者'}}</view>
+    </view>
+    <scroll-view class="home-detail__scroll" scroll-y enhanced show-scrollbar="{{false}}">
+      <image class="home-detail__hero" src="{{selectedWork.image}}" mode="aspectFill" />
+      <view class="home-detail__content">
+        <view class="home-detail__title-row">
+          <view class="home-detail__badge">{{selectedWork.tag || '精选'}}</view>
+          <view class="home-detail__title">{{selectedWork.title}}</view>
+        </view>
+        <view class="home-detail__tags">
+          <text>{{selectedWork.category || '模型'}}</text>
+          <text>{{selectedWork.format || 'OBJ'}}</text>
+        </view>
+        <view class="home-detail__desc">{{selectedWork.description || '轻量资源，适合移动端预览与二次创作。'}}</view>
+        <view class="home-detail__date">发布时间：2026.04.23</view>
+        <view class="home-detail__comments-title">评论（{{homeComments.length}}）</view>
+        <view class="home-detail__editor">
+          <input value="{{homeCommentText}}" placeholder="说说这个模型哪里打动你" bindinput="onHomeCommentInput" />
+          <button bindtap="publishHomeComment">发布</button>
+        </view>
+        <view wx:for="{{homeComments}}" wx:key="id" class="home-detail__comment">
+          <image src="{{item.avatar}}" mode="aspectFill" />
+          <view>
+            <view class="home-detail__comment-head">{{item.author}} <text>{{item.date}}</text></view>
+            <view class="home-detail__comment-copy">{{item.content}}</view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+    <view class="home-detail__bottom">
+      <view class="home-detail__stat {{selectedLiked ? 'home-detail__stat--active' : ''}}" bindtap="toggleSelectedLike">♥ {{selectedWork.likes || 0}}</view>
+      <view class="home-detail__stat">☆</view>
+      <button bindtap="downloadSelectedModel">模型下载</button>
+      <button class="primary" bindtap="buySelectedProduct">成品购买 ¥35.00</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,83 @@
+<view class="my-page">
+  <view class="status-bar"></view>
+
+  <view class="my-nav">
+    <image class="logo" src="{{images.logo}}" mode="aspectFit" />
+    <view class="nav-title">我的</view>
+  </view>
+
+  <scroll-view class="my-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="user-panel">
+      <view class="profile" bindtap="handleProfileTap">
+        <image class="profile-avatar" src="{{isLoad && personalInfo.image ? personalInfo.image : images.avatar}}" mode="aspectFill" />
+        <view class="profile-copy">
+          <view class="profile-name">{{isLoad ? personalInfo.name : '点击登录'}}</view>
+          <view class="profile-sub">{{isLoad ? '管理你的模型、积分和收益' : '登录后同步积分、订单和生成记录'}}</view>
+        </view>
+        <view class="setting-dot">⚙</view>
+      </view>
+
+      <view class="account-row">
+        <view class="points-entry">
+          <text class="points-icon">★</text>
+          <view>
+            <view class="points-label">剩余积分</view>
+            <view class="points-value">{{pointsBalance}}</view>
+          </view>
+          <view class="points-add" bindtap="openRecharge">+</view>
+        </view>
+
+        <view class="income-entry" bindtap="openIncome">
+          <view class="income-label">创作收入</view>
+          <view class="income-value">¥{{incomeTotal}}</view>
+        </view>
+
+        <view class="order-entry" bindtap="openOrders">我的订单</view>
+      </view>
+    </view>
+
+    <view class="section-head"><view class="section-title">我的模型</view><view class="manage-entry" bindtap="openGeneratedManage">管理AI模型</view></view>
+    <view class="model-grid">
+      <view wx:for="{{myModels}}" wx:key="id" class="model-card" data-id="{{item.id}}" bindtap="openModel">
+        <view class="image-wrap">
+          <image class="model-image" src="{{item.image}}" mode="aspectFill" />
+          <view class="featured-ribbon">
+            <text class="badge-star">★</text>
+            <text>精选</text>
+          </view>
+        </view>
+        <view class="model-title">{{item.title}}</view>
+        <view class="model-meta">
+          <view>♥ {{item.likes}}</view>
+          <view>↓ {{item.downloads}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="points-log" wx:if="{{pointLogs.length}}">
+      <view class="section-title">最近记录</view>
+      <view wx:for="{{pointLogs}}" wx:key="id" class="points-log__row">
+        <view>
+          <view class="points-log__name">{{item.title}}</view>
+          <view class="points-log__sub">余额 {{item.balance}}</view>
+        </view>
+        <view class="points-log__num {{item.pointsClass}}">{{item.pointsText}}</view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{showRecharge}}" class="recharge-mask" bindtap="closeRecharge">
+    <view class="recharge-panel" catchtap="noop">
+      <view class="recharge-title">充值积分</view>
+      <view class="recharge-sub">0.1 元 = 1 积分，用于 MAIYA 3D 生成</view>
+      <view class="recharge-grid">
+        <view wx:for="{{rechargeOptions}}" wx:key="points" class="recharge-option" data-points="{{item.points}}" bindtap="recharge">
+          <view class="recharge-badge">{{item.badge}}</view>
+          <view class="recharge-points">{{item.points}} 积分</view>
+          <view class="recharge-price">¥{{item.price}}</view>
+        </view>
+      </view>
+      <view class="recharge-note">{{rechargeNote}}</view>
+    </view>
+  </view>
+</view>

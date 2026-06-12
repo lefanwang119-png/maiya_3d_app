@@ -1,0 +1,111 @@
+﻿<view class="community-page">
+  <view class="topbar">
+    <view class="back-btn" bindtap="goBackHome">‹ 返回</view>
+    <view class="top-title">
+      <view class="title">模型社区</view>
+      <view class="sub">上传模型 · 讨论分享</view>
+    </view>
+    <view class="top-actions">
+      <view class="notice-btn" bindtap="openNoticePanel">通知
+        <view wx:if="{{unreadNoticeCount}}" class="notice-badge">{{unreadNoticeCount > 99 ? '99+' : unreadNoticeCount}}</view>
+      </view>
+      <button class="publish-btn" bindtap="openPublish">发布</button>
+    </view>
+  </view>
+
+  <view class="rank-card">
+    <view class="rank-head">
+      <view class="rank-title">热力榜前三</view>
+      <view class="rank-sub">点赞最多的模型</view>
+    </view>
+    <view class="rank-list">
+      <view wx:for="{{top3}}" wx:key="id" class="rank-item" data-id="{{item.id}}" bindtap="openDetail">
+        <view class="rank-num">{{item.rank}}</view>
+        <image class="rank-cover" src="{{item.image}}" mode="aspectFill" />
+        <view class="rank-copy">
+          <view class="rank-name">{{item.title}}</view>
+          <view class="rank-meta">赞 {{item.likes}} · {{item.author}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="filter-bar">
+    <view class="filter-pill">
+      <view class="filter-chip {{feedMode === 'all' ? 'filter-chip--active' : ''}}" data-mode="all" bindtap="switchFeedMode">全部</view>
+      <view class="filter-chip {{feedMode === 'followed' ? 'filter-chip--active' : ''}}" data-mode="followed" bindtap="switchFeedMode">只看关注</view>
+    </view>
+    <view wx:if="{{focusAuthor}}" class="focus-author"><text>@{{focusAuthor}}</text><text class="focus-author__clear" bindtap="clearFocusAuthor">清除</text></view>
+  </view>
+
+  <scroll-view class="feed-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="feed-grid">
+      <view wx:for="{{filteredModels}}" wx:key="id" class="feed-card" data-id="{{item.id}}" bindtap="openDetail">
+        <model-card model="{{item}}" large="{{true}}" showAuthor="{{true}}" />
+      </view>
+      <view wx:if="{{!filteredModels.length}}" class="feed-empty">
+        <view class="feed-empty__title">{{feedMode === 'followed' ? '关注作者还没有新作品' : '暂时还没有模型'}}</view>
+        <view class="feed-empty__sub">可以切换到全部，或发布你的第一个模型。</view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="quick-exit">
+    <button class="quick-exit__btn" bindtap="goBackHome">回首页</button>
+    <button class="quick-exit__btn quick-exit__btn--ghost" bindtap="exitToModel">去模型页</button>
+  </view>
+
+  <view wx:if="{{showNoticePanel}}" class="mask" bindtap="closeNoticePanel">
+    <view class="notice-panel" catchtap="noop">
+      <view class="notice-head"><view class="notice-title">消息通知</view><view class="notice-mark" bindtap="markAllNoticesRead">全部已读</view></view>
+      <scroll-view class="notice-list" scroll-y>
+        <view wx:if="{{!notices.length}}" class="notice-empty">暂无通知</view>
+        <view wx:for="{{notices}}" wx:key="id" class="notice-item {{item.read ? '' : 'notice-item--unread'}}" data-id="{{item.modelId}}" data-notice-id="{{item.id}}" bindtap="openNoticeModel">
+          <view class="notice-item__title">{{item.author}} 发布了新模型</view>
+          <view class="notice-item__sub">{{item.title}} · {{item.createdAtText}}</view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view wx:if="{{showPublish}}" class="mask" bindtap="closePublish">
+    <view class="panel" catchtap="noop">
+      <view class="panel-title">发布模型</view>
+      <input class="input" placeholder="模型标题" value="{{publishTitle}}" bindinput="onTitleInput" />
+      <textarea class="textarea" placeholder="一句话介绍你的模型" value="{{publishDesc}}" bindinput="onDescInput" maxlength="200" />
+      <view class="format-row">
+        <view class="chip {{publishFormat === 'GLB' ? 'chip--active' : ''}}" data-value="GLB" bindtap="chooseFormat">GLB</view>
+        <view class="chip {{publishFormat === 'OBJ' ? 'chip--active' : ''}}" data-value="OBJ" bindtap="chooseFormat">OBJ</view>
+      </view>
+      <view class="upload" bindtap="chooseImage">{{publishImage ? '已选择封面，点击更换' : '选择封面图（可选）'}}</view>
+      <button class="submit" bindtap="publishModel">发布</button>
+      <button class="submit submit--ghost" bindtap="goBackHome">退出</button>
+    </view>
+  </view>
+
+  <view wx:if="{{showDetail && selectedModel}}" class="mask" bindtap="closeDetail">
+    <view class="detail" catchtap="noop">
+      <image class="detail-cover" src="{{selectedModel.image}}" mode="aspectFill" />
+      <view class="detail-title">{{selectedModel.title}}</view>
+      <view class="detail-desc">{{selectedModel.desc}}</view>
+      <view class="detail-meta-row">
+        <view class="detail-meta">{{selectedModel.author}} · {{selectedModel.format}}</view>
+        <button class="follow-btn {{selectedAuthorFollowed ? 'follow-btn--followed' : ''}}" bindtap="toggleFollowAuthor">{{selectedAuthorFollowed ? '已关注' : '关注作者'}}</button>
+      </view>
+      <view class="detail-like" data-id="{{selectedModel.id}}" bindtap="likeModel">赞 {{selectedModel.likes}}</view>
+
+      <view class="comment-title">评论（{{selectedModel.comments.length}}）</view>
+      <view class="comment-editor">
+        <input class="comment-input" placeholder="说说你的想法" value="{{commentText}}" bindinput="onCommentInput" />
+        <button class="comment-send" bindtap="publishComment">发送</button>
+      </view>
+      <scroll-view class="comment-list" scroll-y>
+        <view wx:for="{{selectedModel.comments}}" wx:key="id" class="comment-item">
+          <view class="comment-head">{{item.author}} · {{item.createdAtText}}</view>
+          <view class="comment-content">{{item.content}}</view>
+        </view>
+      </scroll-view>
+      <button class="submit submit--ghost" bindtap="goBackHome">退出</button>
+    </view>
+  </view>
+</view>

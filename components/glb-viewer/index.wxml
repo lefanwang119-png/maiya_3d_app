@@ -1,0 +1,25 @@
+<view class="glb-viewer">
+  <canvas
+    id="glb-canvas"
+    type="webgl"
+    class="glb-canvas"
+    catchtouchstart="handleTouchStart"
+    catchtouchmove="handleTouchMove"
+    catchtouchend="handleTouchEnd"
+    catchtouchcancel="handleTouchEnd"
+  ></canvas>
+  <view class="material-switch">
+    <view
+      class="material-dot material-dot--white {{renderMode === 'white' ? 'material-dot--active' : ''}}"
+      data-mode="white"
+      bindtap="switchRenderMode"
+    ></view>
+    <view
+      class="material-dot material-dot--texture {{renderMode === 'texture' ? 'material-dot--active' : ''}}"
+      data-mode="texture"
+      bindtap="switchRenderMode"
+    ></view>
+  </view>
+  <view wx:if="{{loading}}" class="viewer-state">正在加载 3D 模型...</view>
+  <view wx:if="{{error}}" class="viewer-state viewer-state--error">{{error}}</view>
+</view>

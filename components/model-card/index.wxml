@@ -1,0 +1,37 @@
+﻿<view class="model-card {{large ? 'model-card--large' : ''}}" bindtap="onTap">
+  <view class="model-card__cover-wrap">
+    <image class="model-card__cover model-card__image {{isVideoPlaying ? 'model-card__image--previewing' : ''}}" src="{{model.image}}" mode="aspectFill" />
+    <video
+      wx:if="{{resolvedPreviewVideo && isPreviewing}}"
+      id="preview-video"
+      class="model-card__cover model-card__video"
+      src="{{resolvedPreviewVideo}}"
+      autoplay="{{isPreviewing}}"
+      muted="{{true}}"
+      loop="{{true}}"
+      controls="{{isPreviewing}}"
+      show-center-play-btn="{{isPreviewing}}"
+      show-play-btn="{{isPreviewing}}"
+      show-fullscreen-btn="{{false}}"
+      enable-progress-gesture="{{true}}"
+      object-fit="contain"
+      bindplay="handleVideoPlay"
+      binderror="handleVideoError"
+    ></video>
+    <view class="model-card__preview-tip" wx:if="{{model.previewVideo || model.previewVideoUrl}}" catchtap="togglePreview">{{isPreviewing ? '关闭预览' : '播放预览'}}</view>
+    <view class="model-card__upload-tip" wx:if="{{canUploadLocalVideo && !cloudUploadFileID}}" catchtap="uploadLocalPreviewVideo">上传云端</view>
+    <view class="model-card__preview-error" wx:if="{{videoError}}">{{videoError}}</view>
+    <view class="model-card__tag" wx:if="{{model.tag}}">{{model.tag}}</view>
+  </view>
+
+  <view class="model-card__body">
+    <view class="model-card__title">{{model.title}}</view>
+    <view class="model-card__desc" wx:if="{{model.desc}}">{{model.desc}}</view>
+
+    <view class="model-card__meta">
+      <text wx:if="{{showAuthor}}" class="model-card__author">{{model.author}}</text>
+      <text class="model-card__metric">璧?{{model.likes || 0}}</text>
+      <text class="model-card__metric">涓嬭浇 {{model.downloads || 0}}</text>
+    </view>
+  </view>
+</view>

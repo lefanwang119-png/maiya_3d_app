@@ -1,0 +1,27 @@
+<view class="login-page">
+  <view class="status-bar"></view>
+
+  <view class="login-nav">
+    <view class="back-btn" bindtap="goBack">Back</view>
+    <image class="logo" src="{{logo}}" mode="aspectFit" />
+    <view class="nav-spacer"></view>
+  </view>
+
+  <view class="login-content">
+    <view class="title">Login MAIYA</view>
+    <view class="subtitle">Sync points, orders and 3D records</view>
+
+    <button class="avatar-button" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image src="{{avatarUrl || defaultAvatar}}" mode="aspectFill" />
+      <text>Change avatar</text>
+    </button>
+
+    <view class="field">
+      <text>Nickname</text>
+      <input type="nickname" value="{{nickname}}" placeholder="Input nickname" placeholder-class="placeholder" bindinput="onNicknameInput" />
+    </view>
+
+    <button class="login-button {{isSubmitting ? 'login-button--loading' : ''}}" bindtap="login">{{isSubmitting ? 'Logining...' : 'Enter MAIYA'}}</button>
+    <view class="tips">By login you agree to use WeChat profile for local account.</view>
+  </view>
+</view>

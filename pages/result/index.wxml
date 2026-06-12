@@ -1,0 +1,62 @@
+<view class="result-page">
+  <view class="result-top">
+    <view class="back-btn" bindtap="handleBack">‹</view>
+    <view class="top-copy">
+      <view class="result-title">生成结果</view>
+      <view class="result-sub">拖动 GLB 模型可全角度查看</view>
+    </view>
+  </view>
+
+  <view class="viewer-card">
+    <glb-viewer
+      wx:if="{{viewerReady && !modelLoadFailed}}"
+      class="xr-viewer"
+      file-id="{{glbFileID}}"
+      src="{{viewerSrc}}"
+      bind:loaded="handleModelLoaded"
+      bind:error="handleModelError"
+    />
+    <image wx:if="{{(!viewerReady || modelLoadFailed) && (previewImagePath || previewImageUrl)}}" class="fallback-preview" src="{{previewImagePath || previewImageUrl}}" mode="aspectFit" />
+    <view wx:if="{{preparingPreview}}" class="viewer-loading">正在准备 3D 预览...</view>
+    <view wx:if="{{modelLoadFailed && (previewImagePath || previewImageUrl)}}" class="viewer-loading viewer-loading--error">GLB 预览加载失败，可直接导出模型文件</view>
+    <view wx:if="{{!viewerReady && !(previewImagePath || previewImageUrl)}}" class="viewer-loading">暂无可预览文件，可尝试导出 OBJ/GLB</view>
+    <view wx:if="{{assetError}}" class="viewer-loading viewer-loading--error">{{assetError}}</view>
+    <view class="viewer-tools">
+      <button bindtap="resetView">重置视角</button>
+      <button wx:if="{{glbUrl && !preparingPreview && !viewerReady}}" bindtap="preparePreviewModel">准备预览</button>
+    </view>
+  </view>
+
+  <view class="export-row">
+    <button class="export-btn export-btn--primary" loading="{{exportingType === 'glb'}}" disabled="{{!glbUrl && !glbViewUrl && !glbPath}}" bindtap="exportGlb">导出 GLB</button>
+    <button class="export-btn" loading="{{exportingType === 'obj'}}" disabled="{{!objUrl && !objPath}}" bindtap="exportObj">导出 OBJ</button>
+  </view>
+  <view class="export-row export-row--secondary">
+    <button class="export-btn" loading="{{exportingType === 'preview'}}" disabled="{{!previewImageUrl && !previewImagePath}}" bindtap="exportPreview">导出预览图</button>
+    <button class="export-btn" wx:if="{{videoUrl || videoPath}}" loading="{{exportingType === 'mp4'}}" bindtap="exportMp4">导出 MP4</button>
+  </view>
+  <view wx:if="{{preparedExportPath}}" class="export-ready">
+    <view>
+      <view class="export-ready__title">{{preparedExportName}}</view>
+      <view class="export-ready__desc">文件已准备好，请点击右侧按钮打开导出面板</view>
+    </view>
+    <button bindtap="openPreparedExport">打开导出</button>
+  </view>
+
+  <view class="info-card">
+    <view class="section-title">返回文件</view>
+    <view wx:for="{{fileItems}}" wx:key="id" class="file-row">
+      <view class="file-type">{{item.type}}</view>
+      <view class="file-copy">
+        <view class="file-title">{{item.title}}</view>
+        <view class="file-desc">{{item.desc}}</view>
+      </view>
+      <button class="file-export" data-type="{{item.type}}" data-url="{{item.url}}" data-file-id="{{item.fileID}}" bindtap="exportFromItem">导出</button>
+    </view>
+  </view>
+
+  <view wx:if="{{previewImagePath || previewImageUrl}}" class="preview-card">
+    <view class="section-title">预览图</view>
+    <image class="preview-image" src="{{previewImagePath || previewImageUrl}}" mode="aspectFit" />
+  </view>
+</view>

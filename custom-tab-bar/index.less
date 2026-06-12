@@ -1,0 +1,101 @@
+@import '/variable.less';
+
+.mai-tabbar {
+  position: relative;
+  display: flex;
+  height: calc(@tab-bar-height + env(safe-area-inset-bottom));
+  align-items: center;
+  justify-content: space-around;
+  padding: 10rpx 30rpx env(safe-area-inset-bottom);
+  box-sizing: border-box;
+  border-top: 1rpx solid #1b1d22;
+  background: rgba(10, 10, 11, 0.96);
+}
+
+.tab-item {
+  display: flex;
+  width: 96rpx;
+  align-items: center;
+  flex-direction: column;
+  gap: 8rpx;
+  color: #8f98aa;
+  font-size: 22rpx;
+  font-weight: 700;
+}
+.tab-item--active { color: #ffffff; }
+.tab-item:nth-child(2) { margin-right: 94rpx; }
+.tab-item:nth-child(3) { margin-left: 94rpx; }
+
+.tab-icon { display: flex; width: 52rpx; height: 52rpx; align-items: center; justify-content: center; }
+.tab-symbol { width: 44rpx; height: 44rpx; position: relative; }
+.tab-symbol::before,
+.tab-symbol::after,
+.tab-symbol__inner { content: ''; position: absolute; box-sizing: border-box; border-color: currentColor; }
+
+.tab-symbol--home::before { left: 8rpx; right: 8rpx; bottom: 6rpx; height: 18rpx; border: 4rpx solid currentColor; border-top: 0; border-radius: 0 0 6rpx 6rpx; }
+.tab-symbol--home::after { left: 11rpx; top: 4rpx; width: 22rpx; height: 22rpx; border-left: 4rpx solid currentColor; border-top: 4rpx solid currentColor; transform: rotate(45deg); }
+.tab-symbol--model::before { left: 9rpx; top: 9rpx; width: 24rpx; height: 24rpx; border: 4rpx solid currentColor; transform: rotate(20deg); }
+.tab-symbol--shop::before { left: 6rpx; right: 6rpx; bottom: 6rpx; height: 20rpx; border: 4rpx solid currentColor; border-radius: 6rpx; }
+.tab-symbol--shop::after { left: 13rpx; top: 3rpx; width: 18rpx; height: 13rpx; border: 4rpx solid currentColor; border-bottom: 0; border-radius: 10rpx 10rpx 0 0; }
+.tab-symbol--my::before { left: 14rpx; top: 4rpx; width: 14rpx; height: 14rpx; border: 4rpx solid currentColor; border-radius: 50%; }
+.tab-symbol--my::after { left: 8rpx; right: 8rpx; bottom: 5rpx; height: 16rpx; border: 4rpx solid currentColor; border-radius: 999rpx; }
+
+.ai-entry {
+  position: absolute;
+  left: 50%;
+  top: -18rpx;
+  width: 118rpx;
+  height: 86rpx;
+  transform: translateX(-50%);
+}
+.ai-orbit {
+  position: absolute;
+  left: 50%;
+  width: 84rpx;
+  height: 84rpx;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: #6f9de4;
+  box-shadow: 0 8rpx 20rpx rgba(111, 157, 228, 0.45);
+}
+.ai-text {
+  position: absolute;
+  left: 50%;
+  top: 14rpx;
+  transform: translateX(-50%);
+  color: #ffffff;
+  font-size: 42rpx;
+  font-weight: 800;
+}
+.ai-spark { display: none; }
+
+.ai-transition { display: none; }
+
+/* MAIYA brand theme: graphite + silver + teal */
+.mai-tabbar {
+  border-top: 1rpx solid rgba(21, 27, 29, 0.12);
+  background: rgba(244, 243, 239, 0.94);
+  box-shadow: 0 -18rpx 46rpx rgba(21, 27, 29, 0.1);
+  backdrop-filter: blur(20rpx);
+}
+
+.tab-item {
+  color: #7d8587;
+}
+
+.tab-item--active {
+  color: #151b1d;
+}
+
+.tab-item--active .tab-icon {
+  color: #10cfc3;
+}
+
+.ai-orbit {
+  background: linear-gradient(145deg, #16d5c8, #09b6ae);
+  box-shadow: 0 12rpx 28rpx rgba(16, 207, 195, 0.36);
+}
+
+.ai-text {
+  color: #ffffff;
+}

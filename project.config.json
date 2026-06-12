@@ -1,0 +1,343 @@
+{
+  "description": "椤圭洰閰嶇疆鏂囦欢锛岃瑙佹枃妗ｏ細https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
+  "packOptions": {
+    "ignore": [
+      {
+        "value": "tmp_doc_extract",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm",
+        "type": "folder"
+      },
+      {
+        "value": "mock",
+        "type": "folder"
+      },
+      {
+        "value": "mock/mock.js",
+        "type": "file"
+      },
+      {
+        "value": "package-lock.json",
+        "type": "file"
+      },
+      {
+        "value": "README.md",
+        "type": "file"
+      },
+      {
+        "value": "LICENSE",
+        "type": "file"
+      },
+      {
+        "value": "static/home",
+        "type": "folder"
+      },
+      {
+        "value": "static/image1.png",
+        "type": "file"
+      },
+      {
+        "value": "static/image2.png",
+        "type": "file"
+      },
+      {
+        "value": "static/img_td.png",
+        "type": "file"
+      },
+      {
+        "value": "static/bg_navbar.png",
+        "type": "file"
+      },
+      {
+        "value": "static/bg_navbar2.png",
+        "type": "file"
+      },
+      {
+        "value": "static/icon_td.png",
+        "type": "file"
+      },
+      {
+        "value": "static/icon_doc.png",
+        "type": "file"
+      },
+      {
+        "value": "static/icon_map.png",
+        "type": "file"
+      },
+      {
+        "value": "static/icon_qq.png",
+        "type": "file"
+      },
+      {
+        "value": "static/icon_wx.png",
+        "type": "file"
+      },
+      {
+        "value": "static/chat",
+        "type": "folder"
+      },
+      {
+        "value": "static/avatar1.png",
+        "type": "file"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/.wechatide.ib.json",
+        "type": "file"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/.DS_Store",
+        "type": "file"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/action-sheet",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/back-top",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/calendar",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/cascader",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/checkbox",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/checkbox-group",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/color-picker",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/count-down",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/dropdown-item",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/dropdown-menu",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/fab",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/footer",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/guide",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/image-viewer",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/indexes",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/indexes-anchor",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/notice-bar",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/pull-down-refresh",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/rate",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/result",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/side-bar",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/side-bar-item",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/skeleton",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/slider",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/step-item",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/stepper",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/steps",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/swiper",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/swiper-nav",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/switch",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/tab-bar",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/tab-bar-item",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/tab-panel",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/tabs",
+        "type": "folder"
+      },
+      {
+        "value": "miniprogram_npm/tdesign-miniprogram/tree-select",
+        "type": "folder"
+      }
+    ],
+    "include": []
+  },
+  "setting": {
+    "bundle": false,
+    "userConfirmedBundleSwitch": false,
+    "urlCheck": true,
+    "scopeDataCheck": false,
+    "coverView": true,
+    "es6": true,
+    "postcss": true,
+    "compileHotReLoad": false,
+    "lazyloadPlaceholderEnable": false,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "autoAudits": false,
+    "newFeature": false,
+    "uglifyFileName": false,
+    "uploadWithSourceMap": true,
+    "useIsolateContext": true,
+    "nodeModules": false,
+    "enhance": true,
+    "useMultiFrameRuntime": true,
+    "useApiHook": true,
+    "useApiHostProcess": true,
+    "showShadowRootInWxmlPanel": true,
+    "packNpmManually": false,
+    "enableEngineNative": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true,
+    "showES6CompileOption": false,
+    "minifyWXML": true,
+    "useStaticServer": true,
+    "checkInvalidKey": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "disableUseStrict": false,
+    "useCompilerPlugins": [
+      "less"
+    ],
+    "condition": false,
+    "ignoreUploadUnusedFiles": true,
+    "compileWorklet": false,
+    "localPlugins": false,
+    "swc": false,
+    "disableSWC": true
+  },
+  "compileType": "miniprogram",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "libVersion": "3.15.2",
+  "appid": "wxbdfc9bb2e399f8b2",
+  "projectname": "miniprogram-starter",
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "login",
+          "pathName": "pages/login/login",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "loginCode",
+          "pathName": "pages/loginCode/loginCode",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "my",
+          "pathName": "pages/my/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "info-edit",
+          "pathName": "pages/my/info-edit/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "dataCenter",
+          "pathName": "pages/dataCenter/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "release",
+          "pathName": "pages/release/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "setting",
+          "pathName": "pages/setting/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
+  },
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  },
+  "simulatorPluginLibVersion": {}
+}

@@ -1,0 +1,58 @@
+{
+    "pages":  [
+                  "pages/home/index",
+                  "pages/model/index",
+                  "pages/shop/index",
+                  "pages/community/index",
+                  "pages/my/index",
+                  "pages/my/orders/index",
+                  "pages/ai/index",
+                  "pages/generated/index",
+                  "pages/result/index",
+                  "pages/model-detail/index"
+              ],
+    "usingComponents":  {
+
+                        },
+    "lazyCodeLoading":  "requiredComponents",
+    "subpackages":  [
+                        {
+                            "root":  "pages/login",
+                            "name":  "login",
+                            "pages":  [
+                                          "login"
+                                      ]
+                        }
+                    ],
+    "window":  {
+                   "backgroundTextStyle":  "dark",
+                   "navigationBarBackgroundColor":  "#f4f3ef",
+                   "navigationBarTitleText":  "MAIYA 3D",
+                   "navigationBarTextStyle":  "black"
+               },
+    "tabBar":  {
+                   "custom":  true,
+                   "list":  [
+                                {
+                                    "pagePath":  "pages/home/index",
+                                    "text":  "棣栭〉"
+                                },
+                                {
+                                    "pagePath":  "pages/model/index",
+                                    "text":  "妯″瀷"
+                                },
+                                {
+                                    "pagePath":  "pages/shop/index",
+                                    "text":  "鍟嗗煄"
+                                },
+                                {
+                                    "pagePath":  "pages/my/index",
+                                    "text":  "鎴戠殑"
+                                }
+                            ]
+               },
+    "resolveAlias":  {
+                         "~/*":  "/*"
+                     },
+    "sitemapLocation":  "sitemap.json"
+}

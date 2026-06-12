@@ -1,0 +1,109 @@
+<view class="model-page">
+  <view class="status-bar"></view>
+
+  <view class="model-nav">
+    <image class="logo" src="{{images.logo}}" mode="aspectFit" />
+    <view class="search-pill">
+      <text class="search-icon">⌕</text>
+      <input value="{{searchText}}" placeholder="搜索模型 / 作者 / 格式" bindinput="onSearchInput" />
+    </view>
+  </view>
+
+  <view class="filter-tabs">
+    <view wx:for="{{filters}}" wx:key="item" class="filter-tab {{activeFilter === item ? 'filter-tab--active' : ''}}" data-value="{{item}}" bindtap="chooseFilter">{{item}}</view>
+    <view class="filter-icon" bindtap="openFilterSheet">☰</view>
+  </view>
+
+  <scroll-view class="model-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view class="vip-banner">
+      <view class="vip-checker"></view>
+      <view class="vip-copy">
+        <view class="vip-title">{{banner.title}}</view>
+        <view class="vip-sub">{{banner.subTitle}}</view>
+      </view>
+      <image class="vip-model" src="{{banner.image}}" mode="aspectFit" />
+    </view>
+
+    <view class="model-grid">
+      <view wx:for="{{visibleModels}}" wx:key="id" class="model-card" data-id="{{item.id}}" bindtap="openModel">
+        <view class="image-wrap">
+          <image class="model-image" src="{{item.image}}" mode="aspectFill" />
+          <view class="featured-ribbon">
+            <text class="badge-star">★</text>
+            <text>{{item.tag}}</text>
+          </view>
+        </view>
+        <view class="model-title">{{item.title}}</view>
+        <view class="model-meta">
+          <image class="avatar" src="{{images.avatar}}" mode="aspectFill" />
+          <text>{{item.author}}</text>
+          <view>♥ {{item.likes}}</view>
+          <view>↓ {{item.downloads}}</view>
+          <view>☆</view>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{searchText && !visibleModels.length}}" class="empty-search">
+      <view>没有找到相关模型</view>
+      <text>可尝试搜索“耳机”“摆件”“GLB”</text>
+    </view>
+  </scroll-view>
+
+  <view wx:if="{{showFilter}}" class="sheet-mask" bindtap="closeFilterSheet">
+    <view class="filter-panel" catchtap="noop">
+      <view class="filter-title">打印机品牌</view>
+      <view class="brand-row">
+        <view wx:for="{{printerBrands}}" wx:key="*this" class="brand-card {{selectedBrand === item ? 'choice-active' : ''}}" data-value="{{item}}" bindtap="chooseBrand">{{item}}</view>
+      </view>
+      <view class="filter-title">设备型号</view>
+      <view class="type-row">
+        <text wx:for="{{fileTypes}}" wx:key="*this" class="{{selectedFileType === item ? 'choice-text-active' : ''}}" data-value="{{item}}" bindtap="chooseFileType">{{item}}</text>
+      </view>
+      <button class="confirm-btn" bindtap="closeFilterSheet">确定</button>
+    </view>
+  </view>
+
+  <view wx:if="{{showDetail}}" class="detail-page">
+    <view class="detail-status">
+      <view class="detail-back" bindtap="closeDetail">
+        <text class="detail-back__icon">‹</text>
+        <text>返回</text>
+      </view>
+      <view class="detail-owner">{{selectedModel.author}}</view>
+    </view>
+    <scroll-view class="detail-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+      <image class="detail-hero" src="{{selectedModel.image}}" mode="aspectFill" />
+      <view class="detail-content">
+        <view class="detail-title-row">
+          <view class="detail-badge">精选</view>
+          <view class="detail-title">{{selectedModel.title}}</view>
+        </view>
+        <view class="detail-tags">
+          <text>{{selectedModel.category}}</text>
+          <text>{{selectedModel.format}}</text>
+        </view>
+        <view class="detail-desc">{{selectedModel.description}}</view>
+        <view class="detail-date">发布时间：2026.04.23</view>
+        <view class="comment-title">评论（{{comments.length}}）</view>
+        <view class="comment-editor">
+          <input value="{{commentText}}" placeholder="说说这个模型哪里打动你" bindinput="onCommentInput" />
+          <button bindtap="publishComment">发布</button>
+        </view>
+        <view wx:for="{{comments}}" wx:key="id" class="comment-row">
+          <image src="{{item.avatar}}" mode="aspectFill" />
+          <view>
+            <view class="comment-head">{{item.author}} <text>{{item.date}}</text></view>
+            <view class="comment-copy">{{item.content}}</view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+    <view class="detail-bottom">
+      <view class="detail-stat {{selectedLiked ? 'detail-stat--active' : ''}}" bindtap="toggleLike">♥ {{selectedModel.likes}}</view>
+      <view class="detail-stat {{selectedFavorited ? 'detail-stat--active' : ''}}" bindtap="toggleFavorite" data-id="{{selectedModel.id}}">☆</view>
+      <button bindtap="downloadModel">模型下载</button>
+      <button class="primary" bindtap="buyFinishedProduct">成品购买 ¥35.00</button>
+    </view>
+  </view>
+</view>

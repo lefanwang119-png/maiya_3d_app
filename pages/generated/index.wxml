@@ -1,0 +1,44 @@
+<view class="generated-page">
+  <view class="generated-top">
+    <view class="back-btn" bindtap="handleBack">‹</view>
+    <view>
+      <view class="page-title">AI 模型管理</view>
+      <view class="page-sub">控制生成模型是否公开到精选模型</view>
+    </view>
+  </view>
+
+  <scroll-view class="generated-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view wx:if="{{!models.length}}" class="empty-card">
+      <view class="empty-title">还没有 AI 生成模型</view>
+      <view class="empty-sub">生成成功后会自动出现在这里。</view>
+    </view>
+
+    <view wx:for="{{models}}" wx:key="id" class="manage-card">
+      <image class="model-cover" src="{{item.image}}" mode="aspectFill" />
+      <view class="model-body">
+        <view class="model-head">
+          <view class="model-title">{{item.title}}</view>
+          <view class="status-pill {{item.isPublic ? 'status-pill--public' : 'status-pill--hidden'}}">{{item.isPublic ? '公开' : '隐藏'}}</view>
+        </view>
+        <view class="model-desc">{{item.description}}</view>
+        <view class="model-meta">{{item.format}} · {{item.createdAtText}} · {{item.visibilityText}}</view>
+        <view class="visibility-row">
+          <view>
+            <view class="visibility-title">公开到精选模型</view>
+            <view class="visibility-sub">关闭后只保留在我的模型</view>
+          </view>
+          <switch checked="{{item.isPublic}}" color="#8fc7ff" data-id="{{item.id}}" bindchange="togglePublic" />
+        </view>
+        <view class="action-row">
+          <button class="ghost-btn" data-id="{{item.id}}" bindtap="openDetail">模型详情</button>
+          <button class="ghost-btn" data-id="{{item.id}}" bindtap="openResult">查看结果</button>
+          <button class="danger-btn" data-id="{{item.id}}" bindtap="deleteModel">删除</button>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="save-bar">
+    <button class="save-btn {{hasChanges ? 'save-btn--active' : ''}}" disabled="{{!hasChanges}}" bindtap="saveChanges">保存公开设置</button>
+  </view>
+</view>

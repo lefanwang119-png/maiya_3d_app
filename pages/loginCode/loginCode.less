@@ -1,0 +1,51 @@
+.login-code {
+  &__title {
+    color: rgba(0, 0, 0, 0.9);
+    font-size: 56rpx;
+    font-weight: 600;
+    line-height: 72rpx;
+    padding: 16rpx 32rpx 40rpx;
+  }
+
+  &__tips {
+    margin: 0 32rpx;
+    color: rgba(0, 0, 0, 0.4);
+    font-size: 24rpx;
+    line-height: 40rpx;
+  }
+
+  &__input {
+    margin-top: 48rpx;
+
+    .suffix {
+      display: flex;
+      align-items: center;
+      min-width: 168rpx;
+    }
+
+    .suffix--line {
+      width: 2rpx;
+      height: 48rpx;
+      background-color: #f3f3f3;
+      margin-right: 32rpx;
+    }
+  }
+
+  &__button {
+    margin: 56rpx 32rpx;
+  }
+}
+
+/* MAIYA brand theme */
+page,
+.login-code {
+  color: #151b1d;
+  background:
+    radial-gradient(circle at 82% 6%, rgba(22, 213, 200, 0.12), transparent 30%),
+    linear-gradient(180deg, #f7f6f2 0%, #efefeb 100%);
+}
+
+.login-code__button {
+  color: #151b1d;
+  background: linear-gradient(135deg, #22e4d6, #16d5c8);
+}

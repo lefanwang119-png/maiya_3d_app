@@ -1,0 +1,80 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.glb-viewer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(184, 255, 67, 0.12), transparent 34%),
+    linear-gradient(180deg, #070a12, #03050a);
+}
+
+.glb-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.material-switch {
+  position: absolute;
+  right: 24rpx;
+  bottom: 24rpx;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  padding: 12rpx 14rpx;
+  border: 1rpx solid rgba(255, 255, 255, 0.16);
+  border-radius: 999rpx;
+  background: rgba(5, 7, 12, 0.58);
+  box-shadow: 0 14rpx 34rpx rgba(0, 0, 0, 0.32);
+  backdrop-filter: blur(18rpx);
+}
+
+.material-dot {
+  position: relative;
+  width: 34rpx;
+  height: 34rpx;
+  border-radius: 50%;
+  box-sizing: border-box;
+  transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 180ms ease, border-color 180ms ease;
+}
+
+.material-dot--white {
+  border: 2rpx solid rgba(255, 255, 255, 0.95);
+  background: #ffffff;
+}
+
+.material-dot--texture {
+  border: 2rpx solid rgba(255, 255, 255, 0.72);
+  background: conic-gradient(from 20deg, #ff4d7d, #ffd84d, #66ff9a, #56c7ff, #9b5cff, #ff4d7d);
+}
+
+.material-dot--active {
+  transform: scale(1.14);
+  border-color: #b8ff43;
+  box-shadow: 0 0 0 5rpx rgba(184, 255, 67, 0.18), 0 0 20rpx rgba(184, 255, 67, 0.38);
+}
+
+.viewer-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 24rpx;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.viewer-state--error {
+  padding: 32rpx;
+  color: #ffdfdf;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.36);
+}

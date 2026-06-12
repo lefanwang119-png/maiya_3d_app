@@ -1,0 +1,14 @@
+<view class="mai-tabbar">
+  <view wx:for="{{list}}" wx:key="value" class="tab-item {{value === item.value ? 'tab-item--active' : ''}}" data-value="{{item.value}}" bindtap="handleChange">
+    <view class="tab-icon">
+      <view class="tab-symbol tab-symbol--{{item.value}}"><view class="tab-symbol__inner"></view></view>
+    </view>
+    <view class="tab-label">{{item.label}}</view>
+  </view>
+
+  <view class="ai-entry {{aiPressed ? 'ai-entry--pressed' : ''}}" bindtap="openAi">
+    <view class="ai-orbit"></view>
+    <view class="ai-text">AI</view>
+    <view class="ai-spark">*</view>
+  </view>
+</view>

@@ -1,0 +1,207 @@
+<view class="neon-page {{isSwitching ? 'neon-page--switching' : ''}}">
+  <view class="aurora aurora--purple"></view>
+  <view class="aurora aurora--cyan"></view>
+  <view class="aurora aurora--green"></view>
+
+  <view class="topbar">
+    <view class="back-button" bindtap="handleBack">‹</view>
+    <view class="logo-lockup">
+      <view class="logo-mark">M</view>
+      <view>
+        <view class="logo-text">MAIYA</view>
+        <view class="logo-sub">3D AI Studio</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="hero-copy">
+    <view class="hero-title">你要创建什么？</view>
+    <view class="hero-sub">上传图片、拍摄实物，或用一句话生成可预览的 3D 模型。</view>
+  </view>
+
+  <view class="prompt-orb {{imagePath ? 'prompt-orb--filled' : ''}}">
+    <view class="input-chamber input-chamber--unified">
+      <view wx:if="{{!imagePath}}" class="upload-zone panel-enter" bindtap="chooseImage">
+        <text class="upload-icon">+</text>
+        <view class="upload-text">上传图片 / 拍照</view>
+      </view>
+
+      <view wx:if="{{imagePath}}" class="selected-image panel-enter">
+        <image class="selected-image__preview" src="{{imagePath}}" mode="aspectFill" bindtap="previewImage" />
+        <view class="selected-image__meta">
+          <view class="selected-image__name">{{imageName}}</view>
+          <view class="selected-image__change" bindtap="chooseImage">更换</view>
+        </view>
+        <view class="selected-image__remove" bindtap="removeImage">×</view>
+      </view>
+
+      <view class="divider">
+        <view></view>
+        <text>图文均可</text>
+        <view></view>
+      </view>
+
+      <textarea
+        class="prompt-input prompt-input--unified {{imagePath ? 'prompt-input--with-image' : 'prompt-input--text-only'}}"
+        value="{{prompt}}"
+        placeholder="描述你的想法"
+        placeholder-class="prompt-placeholder"
+        maxlength="500"
+        bindinput="handlePromptInput"
+      />
+    </view>
+  </view>
+
+  <view class="engine-strip">
+    <view class="engine-strip__main">
+      <view class="engine-strip__label">{{detectedModeLabel}}</view>
+      <view class="engine-strip__hint">{{modeHint}}</view>
+    </view>
+  </view>
+
+  <view class="action-row">
+    <view class="samples">
+      <text class="samples__label">试试图片</text>
+      <view class="sample-stack">
+        <image
+          wx:for="{{sampleImages}}"
+          wx:key="item"
+          class="sample-img"
+          src="{{item}}"
+          mode="aspectFill"
+          data-url="{{item}}"
+          bindtap="useSample"
+        />
+        <view class="sample-more">...</view>
+      </view>
+    </view>
+
+    <view class="generate-side">
+      <view class="detect-pill">{{detectedModeLabel}}</view>
+      <view class="cost">{{costText}}</view>
+      <view class="settings-dot {{settingsSpinning ? 'settings-dot--spinning' : ''}}" bindtap="toggleSettings">
+        <view class="settings-gear"></view>
+      </view>
+      <button
+        class="generate-button"
+        loading="{{isSubmitting || isDownloadingAssets}}"
+        disabled="{{isSubmitting || isPolling || isDownloadingAssets}}"
+        bindtap="submitTask"
+      >
+        {{isDownloadingAssets ? '下载中' : isPolling ? 'MAIYA生成中' : '生成'}}
+      </button>
+    </view>
+  </view>
+
+  <view wx:if="{{isSubmitting || isPolling}}" class="generation-progress panel-enter">
+    <view class="generation-progress__head">
+      <view>
+        <view class="generation-progress__title">{{stageText}}</view>
+        <view class="generation-progress__note">{{taskNote}}</view>
+      </view>
+      <view class="generation-progress__percent">{{progressLabel}}</view>
+    </view>
+    <view class="generation-progress__track">
+      <view class="generation-progress__bar" style="width: {{progress}}%;"></view>
+    </view>
+  </view>
+
+  <view wx:if="{{showSettings}}" class="option-glass panel-enter">
+    <view class="parameter-hint">
+      <view class="parameter-hint__label">参数策略</view>
+      <view class="parameter-hint__text">{{speedHint}}</view>
+    </view>
+
+    <view class="option-line publish-line">
+      <view>
+        <view class="option-label">公开展示</view>
+        <view class="publish-hint">{{isPublic ? '生成成功后会同步到模型页' : '仅保存到我的模型列表'}}</view>
+      </view>
+      <switch checked="{{isPublic}}" color="#b8ff43" bindchange="togglePublic" />
+    </view>
+
+    <view class="option-line">
+      <view class="option-label">风格</view>
+      <view class="option-values">
+        <view
+          wx:for="{{textureOptions}}"
+          wx:key="item"
+          class="option-chip {{texture === item ? 'option-chip--active' : ''}}"
+          data-value="{{item}}"
+          bindtap="chooseTexture"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <view class="option-line">
+      <view class="option-label">精细程度</view>
+      <view class="option-values">
+        <view
+          wx:for="{{qualityOptions}}"
+          wx:key="item"
+          class="option-chip {{quality === item ? 'option-chip--active' : ''}}"
+          data-value="{{item}}"
+          bindtap="chooseQuality"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <view class="option-line">
+      <view class="option-label">面数</view>
+      <view class="option-values">
+        <view
+          wx:for="{{topologyOptions}}"
+          wx:key="item"
+          class="option-chip {{topology === item ? 'option-chip--active' : ''}}"
+          data-value="{{item}}"
+          bindtap="chooseTopology"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <view class="option-line">
+      <view class="option-label">PBR 材质</view>
+      <view class="option-values">
+        <view
+          wx:for="{{pbrOptions}}"
+          wx:key="item"
+          class="option-chip {{pbrMode === item ? 'option-chip--active' : ''}}"
+          data-value="{{item}}"
+          bindtap="choosePbrMode"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{task && !isSubmitting && !isPolling}}" class="task-glass panel-enter">
+    <view class="task-head">
+      <view>
+        <view class="task-title">{{task.statusText}}</view>
+        <view class="task-stage">{{stageText}}</view>
+        <view class="task-id" data-url="{{task.jobId}}" bindtap="copyResultUrl">{{task.jobId}}</view>
+      </view>
+      <view class="task-percent">{{progressLabel}}</view>
+    </view>
+    <view class="neon-progress">
+      <view class="neon-progress__bar" style="width: {{progress}}%;"></view>
+    </view>
+    <view class="task-note">{{taskNote}}</view>
+    <view wx:if="{{task.jobId && !isPolling && !isDownloadingAssets && progress != 100}}" class="result-links">
+      <button bindtap="resumePolling">继续查询</button>
+      <button data-url="{{task.jobId}}" bindtap="copyResultUrl">复制任务ID</button>
+    </view>
+    <view wx:if="{{task.glbUrl || task.videoUrl}}" class="result-links">
+      <button bindtap="goResult">查看结果</button>
+      <button wx:if="{{task.glbUrl}}" data-url="{{task.glbUrl}}" bindtap="copyResultUrl">备用GLB链接</button>
+      <button wx:if="{{task.videoUrl}}" data-url="{{task.videoUrl}}" bindtap="copyResultUrl">备用MP4链接</button>
+    </view>
+  </view>
+</view>
