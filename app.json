@@ -8,6 +8,7 @@
                   "pages/my/orders/index",
                   "pages/ai/index",
                   "pages/generated/index",
+                  "pages/admin/review/index",
                   "pages/result/index",
                   "pages/model-detail/index"
               ],

@@ -25,21 +25,21 @@
     </view>
 
     <view class="model-grid">
-      <view wx:for="{{visibleModels}}" wx:key="id" class="model-card" data-id="{{item.id}}" bindtap="openModel">
-        <view class="image-wrap">
-          <image class="model-image" src="{{item.image}}" mode="aspectFill" />
-          <view class="featured-ribbon">
-            <text class="badge-star">★</text>
-            <text>{{item.tag}}</text>
+      <view wx:for="{{modelColumns}}" wx:for-item="column" wx:for-index="columnIndex" wx:key="columnIndex" class="model-column">
+        <view wx:for="{{column}}" wx:key="id" class="model-card" data-id="{{item.id}}" bindtap="openModel">
+          <view class="image-wrap">
+            <image class="model-image" src="{{item.image}}" mode="aspectFill" />
+            <view class="featured-ribbon" wx:if="{{item.tag}}">
+              <text class="badge-star">★</text>
+              <text>{{item.tag}}</text>
+            </view>
           </view>
-        </view>
-        <view class="model-title">{{item.title}}</view>
-        <view class="model-meta">
-          <image class="avatar" src="{{images.avatar}}" mode="aspectFill" />
-          <text>{{item.author}}</text>
-          <view>♥ {{item.likes}}</view>
-          <view>↓ {{item.downloads}}</view>
-          <view>☆</view>
+          <view class="model-title">{{item.title}}</view>
+          <view class="model-meta">
+            <image class="avatar" src="{{images.avatar}}" mode="aspectFill" />
+            <text>{{item.author}}</text>
+            <view>♥ {{item.likes}}</view>
+          </view>
         </view>
       </view>
     </view>
@@ -73,7 +73,8 @@
       <view class="detail-owner">{{selectedModel.author}}</view>
     </view>
     <scroll-view class="detail-scroll" scroll-y enhanced show-scrollbar="{{false}}">
-      <image class="detail-hero" src="{{selectedModel.image}}" mode="aspectFill" />
+      <glb-viewer wx:if="{{selectedModel.previewModelUrl}}" src="{{selectedModel.previewModelUrl}}" cover="{{selectedModel.image}}" />
+      <image wx:else class="detail-hero" src="{{selectedModel.image}}" mode="aspectFill" />
       <view class="detail-content">
         <view class="detail-title-row">
           <view class="detail-badge">精选</view>

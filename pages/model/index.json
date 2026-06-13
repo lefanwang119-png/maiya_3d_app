@@ -1,6 +1,7 @@
 {
   "navigationStyle": "custom",
   "usingComponents": {
+    "glb-viewer": "/components/glb-viewer/index",
     "model-card": "/components/model-card/index"
   }
 }

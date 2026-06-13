@@ -4,11 +4,15 @@ import createBus from './utils/eventBus';
 
 App({
   onLaunch() {
-    if (wx.cloud) {
-      wx.cloud.init({
-        env: config.cloudEnvId || undefined,
-        traceUser: true,
-      });
+    if (wx.cloud && config.cloudEnvId && !config.isMock) {
+      try {
+        wx.cloud.init({
+          env: config.cloudEnvId,
+          traceUser: true,
+        });
+      } catch (error) {
+        console.warn('cloud init skipped:', error);
+      }
     }
 
     const updateManager = wx.getUpdateManager();

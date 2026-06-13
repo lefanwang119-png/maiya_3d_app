@@ -1,15 +1,42 @@
 import request from '~/api/request';
 import { requestRechargePayment } from '~/api/payment';
-import { getGeneratedModels } from '~/utils/generatedModels';
+import {
+  addGeneratedModel,
+  getGeneratedModels,
+  getStatusMeta,
+  REVIEW_STATUS,
+  submitGeneratedModelReview,
+  withdrawGeneratedModelReview,
+} from '~/utils/generatedModels';
+import {
+  getDemoModelReview,
+  submitDemoModelReview,
+  withdrawDemoModelReview,
+} from '~/utils/myModelVisibility';
 import { getPointLogs, getPointsBalance, rechargePoints } from '~/utils/points';
+import { demoMyModels } from '~/utils/demoMyModels';
 import images from '~/config/images';
 
-const myModels = [
-  { id: 1, title: '头戴耳机打印成品', image: images.figma.headphone, likes: 33, downloads: 99 },
-  { id: 2, title: '头戴耳机展示模型', image: images.figma.headphone, likes: 33, downloads: 99 },
-  { id: 3, title: '头戴耳机潮玩模型', image: images.figma.headphone, likes: 33, downloads: 99 },
-  { id: 4, title: '头戴耳机收藏摆件', image: images.figma.headphone, likes: 33, downloads: 99 },
-];
+function decorateMyModel(item) {
+  const reviewStatus = item.reviewStatus || (item.isPublic ? REVIEW_STATUS.PUBLISHED : REVIEW_STATUS.HIDDEN);
+  const statusMeta = getStatusMeta(reviewStatus);
+  return {
+    ...item,
+    reviewStatus,
+    isPublic: reviewStatus === REVIEW_STATUS.PUBLISHED,
+    statusText: statusMeta.text,
+    actionText: statusMeta.actionText,
+    actionHint: statusMeta.hint,
+  };
+}
+
+function getDemoModels() {
+  return demoMyModels.map((item) => decorateMyModel({
+    ...item,
+    reviewStatus: getDemoModelReview(item.id).reviewStatus,
+    reviewReason: getDemoModelReview(item.id).reviewReason,
+  }));
+}
 
 Page({
   data: {
@@ -26,8 +53,18 @@ Page({
     incomeRate: 0.1,
     pointLogs: [],
     showRecharge: false,
+    showUploadPanel: false,
     isPaying: false,
-    myModels,
+    isSavingUpload: false,
+    myModels: [],
+    uploadForm: {
+      title: '',
+      description: '',
+      image: '',
+      filePath: '',
+      fileName: '',
+      format: '',
+    },
     rechargeNote: '支付成功后积分会自动到账',
     rechargeOptions: [
       { points: 50, price: '5.00', badge: '轻量体验' },
@@ -75,8 +112,8 @@ Page({
   },
 
   refreshMyModels() {
-    const generatedModels = getGeneratedModels();
-    this.setData({ myModels: [...generatedModels, ...myModels] });
+    const generatedModels = getGeneratedModels().map(decorateMyModel);
+    this.setData({ myModels: [...generatedModels, ...getDemoModels()] });
   },
 
   getServiceList() {
@@ -100,8 +137,7 @@ Page({
     }
 
     try {
-      const info = await request('/api/genPersonalInfo').then((res) => res.data.data);
-      return info;
+      return await request('/api/genPersonalInfo').then((res) => res.data.data);
     } catch (err) {
       return { name: 'Admin', image: images.figma.avatar };
     }
@@ -160,10 +196,152 @@ Page({
     wx.navigateTo({ url: '/pages/generated/index' });
   },
 
+  resetUploadForm() {
+    this.setData({
+      uploadForm: {
+        title: '',
+        description: '',
+        image: '',
+        filePath: '',
+        fileName: '',
+        format: '',
+      },
+      isSavingUpload: false,
+    });
+  },
+
+  openUploadPanel() {
+    this.resetUploadForm();
+    this.setData({ showUploadPanel: true });
+  },
+
+  closeUploadPanel() {
+    if (this.data.isSavingUpload) return;
+    this.setData({ showUploadPanel: false });
+  },
+
+  onUploadTitleInput(event) {
+    this.setData({ 'uploadForm.title': event.detail.value || '' });
+  },
+
+  onUploadDescInput(event) {
+    this.setData({ 'uploadForm.description': event.detail.value || '' });
+  },
+
+  chooseUploadCover() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      sourceType: ['album', 'camera'],
+      success: (res) => {
+        const file = res.tempFiles && res.tempFiles[0];
+        if (!file || !file.tempFilePath) return;
+        this.setData({ 'uploadForm.image': file.tempFilePath });
+      },
+      fail: () => {},
+    });
+  },
+
+  chooseUploadFile() {
+    wx.chooseMessageFile({
+      count: 1,
+      type: 'file',
+      extension: ['glb', 'obj'],
+      success: (res) => {
+        const file = res.tempFiles && res.tempFiles[0];
+        if (!file || !file.path) return;
+        const fileName = file.name || file.path.split('/').pop() || 'model.glb';
+        const ext = fileName.split('.').pop().toUpperCase();
+        if (!['GLB', 'OBJ'].includes(ext)) {
+          wx.showToast({ title: '请选择 GLB 或 OBJ 文件', icon: 'none' });
+          return;
+        }
+        this.setData({
+          'uploadForm.filePath': file.path,
+          'uploadForm.fileName': fileName,
+          'uploadForm.format': ext,
+        });
+      },
+      fail: () => {},
+    });
+  },
+
+  saveUploadedModel() {
+    const form = this.data.uploadForm;
+    const title = String(form.title || '').trim();
+    const description = String(form.description || '').trim();
+    if (!title) {
+      wx.showToast({ title: '请填写模型名称', icon: 'none' });
+      return;
+    }
+    if (!form.filePath) {
+      wx.showToast({ title: '请上传 GLB 或 OBJ 文件', icon: 'none' });
+      return;
+    }
+    if (!form.image) {
+      wx.showToast({ title: '请上传模型图片', icon: 'none' });
+      return;
+    }
+
+    this.setData({ isSavingUpload: true });
+    addGeneratedModel({
+      title,
+      image: form.image,
+      category: '模型',
+      isPublic: false,
+      submitForReview: false,
+      format: form.format || 'FILE',
+      description: description || '用户上传的本地模型。',
+      size: form.fileName || '本地文件',
+      assets: {
+        source: 'manual-upload',
+        modelPath: form.filePath,
+        fileName: form.fileName,
+        format: form.format,
+        previewImagePath: form.image,
+        description,
+      },
+    });
+
+    this.setData({ showUploadPanel: false });
+    this.resetUploadForm();
+    this.refreshMyModels();
+    wx.showToast({ title: '已添加到我的模型', icon: 'success' });
+  },
+
+  toggleMyModelPublish(event) {
+    const id = event.currentTarget.dataset.id;
+    const target = this.data.myModels.find((item) => String(item.id) === String(id));
+    if (!target) return;
+
+    if (target.isGenerated) {
+      if (target.reviewStatus === REVIEW_STATUS.PENDING || target.reviewStatus === REVIEW_STATUS.PUBLISHED) {
+        withdrawGeneratedModelReview(id);
+      } else {
+        submitGeneratedModelReview(id);
+      }
+    } else {
+      if (target.reviewStatus === REVIEW_STATUS.PENDING || target.reviewStatus === REVIEW_STATUS.PUBLISHED) {
+        withdrawDemoModelReview(id);
+      } else {
+        submitDemoModelReview(id);
+      }
+    }
+
+    this.refreshMyModels();
+
+    wx.showToast({
+      title: target.isGenerated
+        ? (target.reviewStatus === REVIEW_STATUS.PENDING || target.reviewStatus === REVIEW_STATUS.PUBLISHED ? '已隐藏' : '已提交审核')
+        : (target.reviewStatus === REVIEW_STATUS.PENDING || target.reviewStatus === REVIEW_STATUS.PUBLISHED ? '已隐藏' : '已提交审核'),
+      icon: 'success',
+    });
+  },
+
   openModel(event) {
     const { id } = event.currentTarget.dataset;
     const model = this.data.myModels.find((item) => String(item.id) === String(id));
-    if (model && model.assets) {
+    if (model && model.assets && Object.keys(model.assets).length) {
       wx.setStorageSync('latestAi3dAssets', model.assets);
       wx.navigateTo({ url: '/pages/result/index' });
       return;

@@ -1,5 +1,6 @@
 import images from '~/config/images';
 import { getPublicGeneratedModels } from '~/utils/generatedModels';
+import { filterVisibleDemoModels } from '~/utils/myModelVisibility';
 
 const filters = ['全部', '潮玩', '摆件', '模型'];
 
@@ -50,13 +51,15 @@ const models = [
     likes: 33,
     downloads: 99,
     tag: '精选',
-    format: 'OBJ',
-    polygons: '6.2k',
-    size: '4.1MB',
+    format: 'GLB',
+    polygons: '38.7k',
+    size: '0.6MB',
+    previewModelUrl: '/static/models/gradient-vase-preview.glb',
     description: '轻量资源，适合移动端预览与二次创作。',
   },
   {
     id: 3,
+    myModelId: 'demo-my-1',
     title: '头戴耳机打印成品',
     image: images.figma.headphone,
     category: '潮玩',
@@ -71,6 +74,7 @@ const models = [
   },
   {
     id: 4,
+    myModelId: 'demo-my-2',
     title: '头戴耳机展示模型',
     image: images.figma.headphone,
     category: '潮玩',
@@ -95,6 +99,13 @@ const initialComments = [
   },
 ];
 
+function buildWaterfallColumns(list) {
+  return [
+    list.filter((_, index) => index % 2 === 0),
+    list.filter((_, index) => index % 2 === 1),
+  ];
+}
+
 Page({
   data: {
     images: {
@@ -107,6 +118,7 @@ Page({
     activeFilter: '全部',
     models,
     visibleModels: models,
+    modelColumns: buildWaterfallColumns(models),
     selectedModel: null,
     selectedFavorited: false,
     favoritedIds: [],
@@ -128,7 +140,7 @@ Page({
   },
 
   refreshPublicModels(done) {
-    const nextModels = [...getPublicGeneratedModels(), ...models];
+    const nextModels = [...getPublicGeneratedModels(), ...filterVisibleDemoModels(models)];
     this.setData({ models: nextModels }, () => {
       this.applyFilters();
       if (typeof done === 'function') done();
@@ -188,7 +200,10 @@ Page({
       const matchFilter = activeFilter === '全部' || item.category === activeFilter;
       return matchKeyword && matchFilter;
     });
-    this.setData({ visibleModels });
+    this.setData({
+      visibleModels,
+      modelColumns: buildWaterfallColumns(visibleModels),
+    });
   },
 
   openFilterSheet() {
@@ -239,12 +254,14 @@ Page({
       likes: Math.max(0, selectedModel.likes + (liked ? -1 : 1)),
     };
     const nextModels = this.data.models.map((item) => (item.id === id ? nextModel : item));
+    const visibleModels = this.data.visibleModels.map((item) => (item.id === id ? nextModel : item));
     this.setData({
       likedIds,
       selectedLiked: !liked,
       selectedModel: nextModel,
       models: nextModels,
-      visibleModels: this.data.visibleModels.map((item) => (item.id === id ? nextModel : item)),
+      visibleModels,
+      modelColumns: buildWaterfallColumns(visibleModels),
     });
   },
 
@@ -287,10 +304,12 @@ Page({
       ...selectedModel,
       downloads: selectedModel.downloads + 1,
     };
+    const visibleModels = this.data.visibleModels.map((item) => (item.id === nextModel.id ? nextModel : item));
     this.setData({
       selectedModel: nextModel,
       models: this.data.models.map((item) => (item.id === nextModel.id ? nextModel : item)),
-      visibleModels: this.data.visibleModels.map((item) => (item.id === nextModel.id ? nextModel : item)),
+      visibleModels,
+      modelColumns: buildWaterfallColumns(visibleModels),
     });
     wx.showActionSheet({
       itemList: [`下载 ${selectedModel.format}`, '复制模型信息'],

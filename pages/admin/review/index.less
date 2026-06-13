@@ -2,7 +2,7 @@ page {
   background: #d3d6d3;
 }
 
-.generated-page {
+.review-page {
   min-height: 100vh;
   color: #171c1e;
   background:
@@ -10,7 +10,7 @@ page {
     linear-gradient(180deg, #eef0ec 0%, #dfe2dd 54%, #d3d6d3 100%);
 }
 
-.generated-top {
+.review-top {
   display: flex;
   align-items: center;
   gap: 22rpx;
@@ -38,19 +38,26 @@ page {
   font-weight: 900;
 }
 
-.page-sub {
-  margin-top: 8rpx;
+.page-sub,
+.model-desc,
+.model-meta,
+.empty-sub {
   color: #697174;
   font-size: 23rpx;
+  line-height: 1.5;
 }
 
-.generated-scroll {
+.page-sub {
+  margin-top: 8rpx;
+}
+
+.review-scroll {
   height: calc(100vh - 188rpx - env(safe-area-inset-top));
   padding: 0 34rpx calc(36rpx + env(safe-area-inset-bottom));
   box-sizing: border-box;
 }
 
-.manage-card,
+.review-card,
 .empty-card {
   margin-bottom: 26rpx;
   overflow: hidden;
@@ -60,45 +67,26 @@ page {
   box-shadow: 0 16rpx 38rpx rgba(23, 28, 30, 0.1);
 }
 
-.cover-wrap {
-  position: relative;
-  height: 330rpx;
-  background: #c9ccc8;
-}
-
 .model-cover {
   width: 100%;
-  height: 100%;
+  height: 330rpx;
   display: block;
-}
-
-.status-pill {
-  position: absolute;
-  top: 20rpx;
-  right: 20rpx;
-  padding: 10rpx 18rpx;
-  border-radius: 999rpx;
-  font-size: 22rpx;
-  font-weight: 900;
-  backdrop-filter: blur(18rpx);
-}
-
-.status-pill--public {
-  color: #061513;
-  background: rgba(22, 213, 200, 0.9);
-  box-shadow: 0 10rpx 24rpx rgba(22, 213, 200, 0.24);
-}
-
-.status-pill--hidden {
-  color: #f5f6f4;
-  background: rgba(23, 28, 30, 0.72);
+  background: #c9ccc8;
 }
 
 .model-body {
   padding: 24rpx;
 }
 
+.model-head {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+}
+
 .model-title {
+  flex: 1;
+  min-width: 0;
   overflow: hidden;
   color: #171c1e;
   font-size: 31rpx;
@@ -107,12 +95,13 @@ page {
   white-space: nowrap;
 }
 
-.model-desc,
-.model-meta,
-.empty-sub {
-  color: #697174;
-  font-size: 23rpx;
-  line-height: 1.5;
+.status-pill {
+  padding: 10rpx 18rpx;
+  border-radius: 999rpx;
+  color: #061513;
+  background: rgba(22, 213, 200, 0.9);
+  font-size: 22rpx;
+  font-weight: 900;
 }
 
 .model-desc {
@@ -125,14 +114,14 @@ page {
 
 .action-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1.18fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 14rpx;
   margin-top: 22rpx;
 }
 
 .ghost-btn,
-.publish-btn,
-.delete-btn {
+.reject-btn,
+.approve-btn {
   height: 72rpx;
   margin: 0;
   border-radius: 999rpx;
@@ -146,27 +135,20 @@ page {
   background: #eceeeb;
 }
 
-.publish-btn--show {
+.reject-btn {
+  color: #ffffff;
+  background: #343c3e;
+}
+
+.approve-btn {
   color: #061513;
   background: #16d5c8;
   box-shadow: 0 10rpx 28rpx rgba(22, 213, 200, 0.22);
 }
 
-.publish-btn--hide {
-  color: #ffffff;
-  background: #343c3e;
-}
-
-.delete-btn {
-  width: 100%;
-  margin-top: 14rpx;
-  color: #697174;
-  background: transparent;
-}
-
 .ghost-btn::after,
-.publish-btn::after,
-.delete-btn::after {
+.reject-btn::after,
+.approve-btn::after {
   border: 0;
 }
 
@@ -179,17 +161,4 @@ page {
   color: #171c1e;
   font-size: 30rpx;
   font-weight: 900;
-}
-
-.admin-entry {
-  margin: 0 0 26rpx;
-  padding: 22rpx 26rpx;
-  border: 1rpx solid rgba(23, 28, 30, 0.1);
-  border-radius: 20rpx;
-  color: #171c1e;
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow: 0 12rpx 28rpx rgba(23, 28, 30, 0.08);
-  font-size: 25rpx;
-  font-weight: 900;
-  text-align: center;
 }

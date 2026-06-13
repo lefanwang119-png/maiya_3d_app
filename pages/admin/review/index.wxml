@@ -1,0 +1,33 @@
+<view class="review-page">
+  <view class="review-top">
+    <view class="back-btn" bindtap="handleBack">‹</view>
+    <view>
+      <view class="page-title">模型发布审核</view>
+      <view class="page-sub">通过后模型会进入精选模型推荐</view>
+    </view>
+  </view>
+
+  <scroll-view class="review-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view wx:if="{{!models.length}}" class="empty-card">
+      <view class="empty-title">暂无待审核模型</view>
+      <view class="empty-sub">用户提交发布申请后会出现在这里。</view>
+    </view>
+
+    <view wx:for="{{models}}" wx:key="id" class="review-card">
+      <image class="model-cover" src="{{item.image}}" mode="aspectFill" />
+      <view class="model-body">
+        <view class="model-head">
+          <view class="model-title">{{item.title}}</view>
+          <view class="status-pill">{{item.statusText}}</view>
+        </view>
+        <view class="model-desc">{{item.description}}</view>
+        <view class="model-meta">{{item.format}} · {{item.submittedAtText}} · {{item.author}}</view>
+        <view class="action-row">
+          <button class="ghost-btn" data-id="{{item.id}}" bindtap="openResult">查看结果</button>
+          <button class="reject-btn" data-id="{{item.id}}" data-type="{{item.isDemoModel ? 'demo' : 'generated'}}" bindtap="rejectModel">驳回</button>
+          <button class="approve-btn" data-id="{{item.id}}" data-type="{{item.isDemoModel ? 'demo' : 'generated'}}" bindtap="approveModel">通过</button>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

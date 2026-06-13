@@ -691,7 +691,7 @@ Page({
       assets: onlineAssets,
       savedModel: true,
     });
-    this.showMessage(savedModel.isPublic ? '模型文件已准备好，已公开到模型页' : '模型文件已准备好，已保存到我的模型', 'success');
+    this.showMessage(savedModel.reviewStatus === 'pending' ? '模型文件已准备好，已提交管理员审核' : '模型文件已准备好，已保存到我的模型', 'success');
     wx.navigateTo({
       url: '/pages/result/index',
       animationType: 'fade',

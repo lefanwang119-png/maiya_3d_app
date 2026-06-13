@@ -12,10 +12,10 @@ const HOME_COMMENTS = [
 ];
 
 const categories = [
-  { title: '精品', subTitle: '潮玩', type: 'feature', image: images.figma.categoryFeature },
-  { title: '周边', subTitle: '好物', type: 'goods', image: images.figma.categoryGoods },
-  { title: '摆件', subTitle: '桌面', type: 'feature', image: images.figma.categoryFeature },
-  { title: '模型', subTitle: '数字', type: 'goods', image: images.figma.categoryGoods },
+  { title: '精品', subTitle: '潮玩', type: 'feature', icon: 'M' },
+  { title: '周边', subTitle: '好物', type: 'goods', icon: 'A' },
+  { title: '摆件', subTitle: '桌面', type: 'feature', icon: 'I' },
+  { title: '模型', subTitle: '数字', type: 'goods', icon: 'Y' },
 ];
 
 const works = [
@@ -83,6 +83,19 @@ const works = [
   },
 ];
 
+function buildWaterfallColumns(list) {
+  const columns = [[], []];
+  list.forEach((item, index) => {
+    const columnIndex = index % 2;
+    const cardIndex = columns[columnIndex].length;
+    columns[columnIndex].push({
+      ...item,
+      waterfallTall: (cardIndex + columnIndex) % 2 === 1,
+    });
+  });
+  return columns;
+}
+
 Page({
   data: {
     images: {
@@ -92,6 +105,7 @@ Page({
     categories,
     works,
     visibleWorks: works,
+    workColumns: buildWaterfallColumns(works),
     searchText: '',
     followedAuthors: [],
     selectedWork: null,
@@ -117,7 +131,10 @@ Page({
       const text = `${item.title} ${item.author} ${item.category || ''}`.toLowerCase();
       return !keyword || text.includes(keyword);
     });
-    this.setData({ visibleWorks });
+    this.setData({
+      visibleWorks,
+      workColumns: buildWaterfallColumns(visibleWorks),
+    });
   },
 
   refreshFollowedAuthors() {
@@ -168,6 +185,7 @@ Page({
     this.setData({
       works: nextWorks,
       visibleWorks,
+      workColumns: buildWaterfallColumns(visibleWorks),
       likedWorkIds,
       selectedLiked: !liked,
       selectedWork: nextWork,

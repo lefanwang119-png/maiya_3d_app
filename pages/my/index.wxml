@@ -36,21 +36,39 @@
       </view>
     </view>
 
-    <view class="section-head"><view class="section-title">我的模型</view><view class="manage-entry" bindtap="openGeneratedManage">管理AI模型</view></view>
+    <view class="section-head">
+      <view class="section-title">我的模型</view>
+      <view class="manage-entry" bindtap="openGeneratedManage">管理AI模型</view>
+    </view>
+
     <view class="model-grid">
       <view wx:for="{{myModels}}" wx:key="id" class="model-card" data-id="{{item.id}}" bindtap="openModel">
         <view class="image-wrap">
           <image class="model-image" src="{{item.image}}" mode="aspectFill" />
           <view class="featured-ribbon">
             <text class="badge-star">★</text>
-            <text>精选</text>
+            <text>{{item.isGenerated ? 'AI' : '精选'}}</text>
           </view>
+          <view class="publish-status {{item.isPublic ? 'publish-status--public' : 'publish-status--hidden'}}">{{item.statusText}}</view>
         </view>
+
         <view class="model-title">{{item.title}}</view>
         <view class="model-meta">
           <view>♥ {{item.likes}}</view>
           <view>↓ {{item.downloads}}</view>
         </view>
+
+        <button
+          class="model-publish-btn {{item.isPublic ? 'model-publish-btn--hide' : 'model-publish-btn--show'}}"
+          data-id="{{item.id}}"
+          catchtap="toggleMyModelPublish"
+        >{{item.actionText}}</button>
+      </view>
+
+      <view class="model-card upload-card" bindtap="openUploadPanel">
+        <view class="upload-card__icon">+</view>
+        <view class="upload-card__title">上传本地模型</view>
+        <view class="upload-card__sub">支持 GLB / OBJ、封面图和简介</view>
       </view>
     </view>
 
@@ -65,6 +83,43 @@
       </view>
     </view>
   </scroll-view>
+
+  <view wx:if="{{showUploadPanel}}" class="upload-mask" bindtap="closeUploadPanel">
+    <view class="upload-panel" catchtap="noop">
+      <view class="upload-title">上传本地模型</view>
+      <view class="upload-sub">保存后会出现在我的模型，可继续申请发布审核。</view>
+
+      <view class="upload-field">
+        <view class="upload-label">模型名称</view>
+        <input class="upload-input" value="{{uploadForm.title}}" placeholder="请输入模型名称" bindinput="onUploadTitleInput" />
+      </view>
+
+      <view class="upload-field">
+        <view class="upload-label">模型简介</view>
+        <textarea class="upload-textarea" value="{{uploadForm.description}}" placeholder="简单描述模型特点、用途或打印建议" bindinput="onUploadDescInput" />
+      </view>
+
+      <view class="upload-picker-row">
+        <view class="upload-picker" bindtap="chooseUploadCover">
+          <image wx:if="{{uploadForm.image}}" class="upload-preview" src="{{uploadForm.image}}" mode="aspectFill" />
+          <view wx:else>
+            <view class="upload-picker__icon">+</view>
+            <view class="upload-picker__text">上传图片</view>
+          </view>
+        </view>
+
+        <view class="upload-file" bindtap="chooseUploadFile">
+          <view class="upload-file__type">{{uploadForm.format || 'GLB/OBJ'}}</view>
+          <view class="upload-file__name">{{uploadForm.fileName || '选择模型文件'}}</view>
+        </view>
+      </view>
+
+      <view class="upload-actions">
+        <button class="upload-cancel" bindtap="closeUploadPanel">取消</button>
+        <button class="upload-save" loading="{{isSavingUpload}}" bindtap="saveUploadedModel">保存模型</button>
+      </view>
+    </view>
+  </view>
 
   <view wx:if="{{showRecharge}}" class="recharge-mask" bindtap="closeRecharge">
     <view class="recharge-panel" catchtap="noop">

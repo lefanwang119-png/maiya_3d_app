@@ -1,25 +1,31 @@
 <view class="glb-viewer">
   <canvas
+    wx:if="{{viewerReady}}"
     id="glb-canvas"
     type="webgl"
-    class="glb-canvas"
-    catchtouchstart="handleTouchStart"
-    catchtouchmove="handleTouchMove"
-    catchtouchend="handleTouchEnd"
-    catchtouchcancel="handleTouchEnd"
+    class="glb-viewer__canvas"
+    disable-scroll="{{true}}"
+    bindtouchstart="onTouchStart"
+    bindtouchmove="onTouchMove"
+    bindtouchend="onTouchEnd"
+    bindtouchcancel="onTouchEnd"
   ></canvas>
-  <view class="material-switch">
-    <view
-      class="material-dot material-dot--white {{renderMode === 'white' ? 'material-dot--active' : ''}}"
-      data-mode="white"
-      bindtap="switchRenderMode"
-    ></view>
-    <view
-      class="material-dot material-dot--texture {{renderMode === 'texture' ? 'material-dot--active' : ''}}"
-      data-mode="texture"
-      bindtap="switchRenderMode"
-    ></view>
+  <image wx:else class="glb-viewer__cover" src="{{cover}}" mode="aspectFit" />
+
+  <view class="glb-viewer__hud">
+    <view class="glb-viewer__title">3D Preview</view>
+    <view class="glb-viewer__state">{{statusText}}</view>
   </view>
-  <view wx:if="{{loading}}" class="viewer-state">正在加载 3D 模型...</view>
-  <view wx:if="{{error}}" class="viewer-state viewer-state--error">{{error}}</view>
+
+  <view class="glb-viewer__controls">
+    <view class="glb-viewer__tool" bindtap="resetView">R</view>
+    <view class="glb-viewer__tool" bindtap="zoomOut">-</view>
+    <view class="glb-viewer__tool" bindtap="zoomIn">+</view>
+    <view class="glb-viewer__swatch glb-viewer__swatch--dark {{activeTone === 'dark' ? 'glb-viewer__swatch--active' : ''}}" data-tone="dark" bindtap="chooseTone"></view>
+    <view class="glb-viewer__swatch glb-viewer__swatch--silver {{activeTone === 'silver' ? 'glb-viewer__swatch--active' : ''}}" data-tone="silver" bindtap="chooseTone"></view>
+    <view class="glb-viewer__swatch glb-viewer__swatch--cyan {{activeTone === 'cyan' ? 'glb-viewer__swatch--active' : ''}}" data-tone="cyan" bindtap="chooseTone"></view>
+  </view>
+
+  <button wx:if="{{!viewerReady}}" class="glb-viewer__start" bindtap="startViewer">Start 3D</button>
+  <view wx:if="{{errorText}}" class="glb-viewer__error">{{errorText}}</view>
 </view>

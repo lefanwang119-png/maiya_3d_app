@@ -104,27 +104,27 @@
 
 /* MAIYA brand theme */
 .model-card {
-  border: 1rpx solid rgba(21, 27, 29, 0.1);
-  background: #ffffff;
-  box-shadow: 0 18rpx 42rpx rgba(21, 27, 29, 0.12);
+  border: 1rpx solid rgba(42, 48, 50, 0.08);
+  background: #f4f5f3;
+  box-shadow: 0 12rpx 34rpx rgba(23, 28, 30, 0.045);
 }
 
 .model-card__cover-wrap {
-  background: #e8e8e4;
+  background: #d1d4d1;
 }
 
 .model-card__body {
-  background: #ffffff;
+  background: #f4f5f3;
 }
 
 .model-card__title {
-  color: #151b1d;
+  color: #171c1e;
 }
 
 .model-card__desc,
 .model-card__author,
 .model-card__metric {
-  color: #687174;
+  color: #707675;
 }
 
 .model-card__tag {
@@ -139,7 +139,48 @@
 }
 
 .model-card__upload-tip {
-  color: #151b1d;
+  color: #171c1e;
   background: linear-gradient(135deg, #22e4d6, #16d5c8);
   border-color: rgba(16, 207, 195, 0.52);
+}
+
+.model-card--waterfall {
+  border: 0;
+  border-radius: 14rpx;
+  box-shadow: 0 10rpx 30rpx rgba(23, 28, 30, 0.045);
+}
+
+.model-card--waterfall.model-card--large .model-card__cover-wrap,
+.model-card--waterfall .model-card__cover-wrap {
+  height: 344rpx;
+  border-radius: 14rpx 14rpx 0 0;
+  background: #d1d4d1;
+}
+
+.model-card--waterfall.model-card--tall .model-card__cover-wrap {
+  height: 430rpx;
+}
+
+.model-card--waterfall .model-card__body {
+  padding: 14rpx 14rpx 16rpx;
+}
+
+.model-card--waterfall .model-card__title {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 26rpx;
+  line-height: 1.34;
+  white-space: normal;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.model-card--waterfall .model-card__meta {
+  gap: 10rpx;
+  margin-top: 12rpx;
+}
+
+.model-card--waterfall .model-card__author,
+.model-card--waterfall .model-card__metric {
+  font-size: 20rpx;
 }

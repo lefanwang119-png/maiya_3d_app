@@ -36,7 +36,12 @@
       <view class="category-row">
         <view wx:for="{{categories}}" wx:key="index" class="category-card" data-type="{{item.type}}" bindtap="openCategory">
           <view class="category-card__icon-wrap">
-            <image class="category-image" src="{{item.image}}" mode="aspectFit" />
+            <view class="category-icon">
+              <view class="category-icon__mark">{{item.icon}}</view>
+              <view class="category-icon__dot"></view>
+              <view class="category-icon__plane"></view>
+              <view class="category-icon__orb"></view>
+            </view>
           </view>
           <view class="category-card__title">{{item.title}}</view>
           <view class="category-card__sub">{{item.subTitle}}</view>
@@ -46,8 +51,10 @@
 
     <view class="section-title">精选模型</view>
     <view class="work-grid">
-      <view wx:for="{{visibleWorks}}" wx:key="index" class="work-card">
-        <model-card model="{{item}}" large="{{true}}" showAuthor="{{true}}" bindtapcard="openWork" />
+      <view wx:for="{{workColumns}}" wx:for-item="column" wx:for-index="columnIndex" wx:key="columnIndex" class="work-column">
+        <view wx:for="{{column}}" wx:key="id" class="work-card">
+          <model-card model="{{item}}" large="{{true}}" showAuthor="{{true}}" waterfall="{{true}}" tall="{{item.waterfallTall}}" bindtapcard="openWork" />
+        </view>
       </view>
     </view>
 

@@ -171,6 +171,52 @@ page {
 .model-title { margin-top: 22rpx; overflow: hidden; color: #e9f4ff; font-size: 25rpx; line-height: 1.25; text-overflow: ellipsis; white-space: nowrap; }
 .model-meta { display: flex; gap: 22rpx; margin-top: 14rpx; color: #9ec3ea; font-size: 19rpx; }
 
+.publish-status {
+  position: absolute;
+  right: 18rpx;
+  top: 18rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 999rpx;
+  font-size: 21rpx;
+  font-weight: 900;
+  backdrop-filter: blur(16rpx);
+}
+
+.publish-status--public {
+  color: #061513;
+  background: rgba(22, 213, 200, 0.92);
+}
+
+.publish-status--hidden {
+  color: #ffffff;
+  background: rgba(21, 27, 29, 0.72);
+}
+
+.model-publish-btn {
+  width: 100%;
+  height: 68rpx;
+  margin: 18rpx 0 0;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  font-weight: 900;
+  line-height: 68rpx;
+}
+
+.model-publish-btn::after {
+  border: 0;
+}
+
+.model-publish-btn--show {
+  color: #061513;
+  background: #16d5c8;
+  box-shadow: 0 10rpx 26rpx rgba(22, 213, 200, 0.22);
+}
+
+.model-publish-btn--hide {
+  color: #ffffff;
+  background: #343c3e;
+}
+
 .points-log { margin: 0 54rpx calc(160rpx + env(safe-area-inset-bottom)); }
 .points-log .section-title { margin-left: 0; margin-right: 0; }
 .points-log__row { display: flex; align-items: center; justify-content: space-between; padding: 20rpx 0; border-top: 1rpx solid rgba(111, 173, 255, 0.2); }
@@ -219,6 +265,215 @@ page {
 
 .model-card {
   width: 100%;
+}
+
+.upload-card {
+  min-height: 230rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2rpx dashed rgba(21, 27, 29, 0.18);
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.56);
+  box-shadow: 0 16rpx 38rpx rgba(21, 27, 29, 0.08);
+}
+
+.upload-card__icon {
+  display: flex;
+  width: 76rpx;
+  height: 76rpx;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: #061513;
+  background: #16d5c8;
+  font-size: 52rpx;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 12rpx 28rpx rgba(22, 213, 200, 0.24);
+}
+
+.upload-card__title {
+  margin-top: 18rpx;
+  color: #151b1d;
+  font-size: 28rpx;
+  font-weight: 900;
+}
+
+.upload-card__sub {
+  margin-top: 8rpx;
+  color: #687174;
+  font-size: 22rpx;
+}
+
+.upload-mask {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: calc(316rpx + env(safe-area-inset-bottom));
+  z-index: 70;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(21, 27, 29, 0.34);
+}
+
+.upload-panel {
+  width: 100%;
+  max-height: 78vh;
+  padding: 38rpx 42rpx calc(42rpx + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  border-radius: 26rpx 26rpx 0 0;
+  box-sizing: border-box;
+  background: #f6f7f5;
+  box-shadow: 0 -18rpx 46rpx rgba(21, 27, 29, 0.16);
+}
+
+.upload-title {
+  color: #151b1d;
+  font-size: 34rpx;
+  font-weight: 900;
+}
+
+.upload-sub {
+  margin-top: 8rpx;
+  color: #687174;
+  font-size: 22rpx;
+}
+
+.upload-field {
+  margin-top: 24rpx;
+}
+
+.upload-label {
+  margin-bottom: 12rpx;
+  color: #151b1d;
+  font-size: 24rpx;
+  font-weight: 900;
+}
+
+.upload-input,
+.upload-textarea {
+  width: 100%;
+  border: 1rpx solid rgba(21, 27, 29, 0.1);
+  border-radius: 16rpx;
+  box-sizing: border-box;
+  color: #151b1d;
+  background: #ffffff;
+  font-size: 25rpx;
+}
+
+.upload-input {
+  height: 78rpx;
+  padding: 0 22rpx;
+}
+
+.upload-textarea {
+  height: 154rpx;
+  padding: 20rpx 22rpx;
+  line-height: 1.45;
+}
+
+.upload-picker-row {
+  display: grid;
+  grid-template-columns: 220rpx 1fr;
+  gap: 18rpx;
+  margin-top: 24rpx;
+}
+
+.upload-picker,
+.upload-file {
+  min-height: 180rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid rgba(21, 27, 29, 0.1);
+  border-radius: 18rpx;
+  background: #ffffff;
+}
+
+.upload-picker {
+  overflow: hidden;
+  text-align: center;
+}
+
+.upload-preview {
+  width: 100%;
+  height: 180rpx;
+}
+
+.upload-picker__icon {
+  color: #0aaea5;
+  font-size: 58rpx;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.upload-picker__text {
+  margin-top: 8rpx;
+  color: #687174;
+  font-size: 22rpx;
+}
+
+.upload-file {
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24rpx;
+  box-sizing: border-box;
+}
+
+.upload-file__type {
+  display: inline-flex;
+  padding: 8rpx 16rpx;
+  border-radius: 999rpx;
+  color: #061513;
+  background: rgba(22, 213, 200, 0.22);
+  font-size: 22rpx;
+  font-weight: 900;
+}
+
+.upload-file__name {
+  width: 100%;
+  margin-top: 18rpx;
+  overflow: hidden;
+  color: #151b1d;
+  font-size: 25rpx;
+  font-weight: 900;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.upload-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18rpx;
+  margin-top: 30rpx;
+}
+
+.upload-cancel,
+.upload-save {
+  height: 78rpx;
+  margin: 0;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  font-weight: 900;
+  line-height: 78rpx;
+}
+
+.upload-cancel {
+  color: #151b1d;
+  background: #eceeeb;
+}
+
+.upload-save {
+  color: #061513;
+  background: #16d5c8;
+}
+
+.upload-cancel::after,
+.upload-save::after {
+  border: 0;
 }
 
 /* MAIYA brand theme */

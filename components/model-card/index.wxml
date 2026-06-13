@@ -1,4 +1,4 @@
-﻿<view class="model-card {{large ? 'model-card--large' : ''}}" bindtap="onTap">
+<view class="model-card {{large ? 'model-card--large' : ''}} {{waterfall ? 'model-card--waterfall' : ''}} {{tall ? 'model-card--tall' : ''}}" bindtap="onTap">
   <view class="model-card__cover-wrap">
     <image class="model-card__cover model-card__image {{isVideoPlaying ? 'model-card__image--previewing' : ''}}" src="{{model.image}}" mode="aspectFill" />
     <video
@@ -30,8 +30,8 @@
 
     <view class="model-card__meta">
       <text wx:if="{{showAuthor}}" class="model-card__author">{{model.author}}</text>
-      <text class="model-card__metric">璧?{{model.likes || 0}}</text>
-      <text class="model-card__metric">涓嬭浇 {{model.downloads || 0}}</text>
+      <text class="model-card__metric">赞 {{model.likes || 0}}</text>
+      <text class="model-card__metric">下载 {{model.downloads || 0}}</text>
     </view>
   </view>
 </view>

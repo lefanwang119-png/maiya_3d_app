@@ -12,6 +12,14 @@ Component({
       type: Boolean,
       value: true,
     },
+    waterfall: {
+      type: Boolean,
+      value: false,
+    },
+    tall: {
+      type: Boolean,
+      value: false,
+    },
   },
   data: {
     isPreviewing: false,
